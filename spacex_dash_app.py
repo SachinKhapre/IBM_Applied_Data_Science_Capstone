@@ -78,11 +78,12 @@ def get_pie_chart(entered_site):
 @app.callback(Output(component_id='success-payload-scatter-chart', component_property='figure'),
               [Input(component_id='site-dropdown', component_property='value'),
                Input(component_id="payload-slider", component_property="value")])
-#Place to define the callback function .
+#Place to define the callback function.
 def get_scatter_plot(entered_site, payload):
     filtered_df = spacex_df
     if entered_site == 'ALL':
-        fig = px.scatter(filtered_df, x='Payload Mass (kg)', y="class",
+        fig = px.scatter(filtered_df[filtered_df['Payload Mass (kg)'].between(payload[0], payload[1])], 
+                         x='Payload Mass (kg)', y="class",
                          color="Booster Version Category",
                          title='Correlation between Payload and Success for all Sites')
         return fig
